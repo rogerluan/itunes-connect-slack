@@ -2,7 +2,7 @@ require 'spaceship'
 require 'json'
 
 def getVersionInfo(app)
-  
+
 editVersionInfo = app.edit_version
 liveVersionInfo = app.live_version
 
@@ -33,17 +33,17 @@ return version
 end
 
 def getAppVersionFrom(bundle_id)
-	versions = [] 
-	
+	versions = []
+
 	# all apps
 	apps = []
 	if (bundle_id)
 		app = Spaceship::Tunes::Application.find(bundle_id)
 		apps.push(app)
-	else 
+	else
 		apps = Spaceship::Tunes::Application.all
 	end
-	
+
 	for app in apps do
 	  version = getVersionInfo(app)
 	  versions.push(version)
@@ -52,11 +52,11 @@ def getAppVersionFrom(bundle_id)
 end
 
 # Constants
-itc_username = ENV['itc_username']
-itc_password = ENV['itc_password']
+itc_username = ENV['ITC_USERNAME']
+itc_password = ENV['ITC_PASSWORD']
 #split team_id
-itc_team_id_array = ENV['itc_team_id'].to_s.split(",")
-bundle_id = ENV['bundle_id']
+itc_team_id_array = ENV['ITC_TEAM_IDS'].to_s.split(",")
+bundle_id = ENV['BUNDLE_IDENTIFIER']
 
 if (!itc_username)
 	puts "did not find username"
@@ -69,7 +69,7 @@ else
  Spaceship::Tunes.login(itc_username)
 end
 # all json data
-versions = [] 
+versions = []
 
 #add for the team_ids
 #test if itc_team doesnt exists
@@ -89,6 +89,3 @@ end
 
 
 puts JSON.dump versions
-
-
-

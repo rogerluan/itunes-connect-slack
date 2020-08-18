@@ -2,22 +2,22 @@ var poster = require('./post-update.js');
 var dirty = require('dirty');
 var db = dirty('kvstore.db');
 var debug = false
-var pollIntervalSeconds = process.env.POLL_TIME
+var pollIntervalSeconds = process.env.POLL_TIME_IN_SECONDS
 
 function checkAppStatus() {
 	console.log("Fetching latest app status...")
 
-	// invoke ruby script to grab latest app status
+	// Invoke ruby script to grab latest app status
 	var exec = require("child_process").exec;
 	exec('ruby get-app-status.rb', function (err, stdout, stderr) {
 		if (stdout) {
-			// compare new app info with last one (from database)
+			// Compare new app info with last one (from database)
 			console.log(stdout)
 			var versions = JSON.parse(stdout);
 
 			for(let version of versions) {
-  				_checkAppStatus(version);
-			}			
+				_checkAppStatus(version);
+			}
 		}
 		else {
 			console.log("There was a problem fetching the status of the app!");
@@ -27,7 +27,7 @@ function checkAppStatus() {
 }
 
 function _checkAppStatus(version) {
-	// use the live version if edit version is unavailable
+	// Use the live version if edit version is unavailable
 	var currentAppInfo = version["editVersion"] ? version["editVersion"] : version["liveVersion"];
 
 	var appInfoKey = 'appInfo-' + currentAppInfo.appId;
@@ -37,7 +37,7 @@ function _checkAppStatus(version) {
 	if (!lastAppInfo || lastAppInfo.status != currentAppInfo.status || debug) {
 		poster.slack(currentAppInfo, db.get(submissionStartkey));
 
-	    // store submission start time`
+		// Store submission start time
 		if (currentAppInfo.status == "Waiting For Review") {
 			db.set(submissionStartkey, new Date());
 		}
@@ -49,11 +49,11 @@ function _checkAppStatus(version) {
 		console.log("Could not fetch app status");
 	}
 
-	// store latest app info in database
+	// Store latest app info in database
 	db.set(appInfoKey, currentAppInfo);
 }
 
-if(!pollIntervalSeconds) {
+if (!pollIntervalSeconds) {
 	pollIntervalSeconds = 60 * 2;
 }
 

@@ -3,7 +3,7 @@ itunes-connect-slack
 
 These scripts fetch app info directly from iTunes Connect and posts changes in Slack as a bot. Since iTC doesn't provide event webhooks, these scripts use polling with the help of Fastlane's [Spaceship](https://github.com/fastlane/fastlane/tree/master/spaceship).
 
-![](https://raw.githubusercontent.com/erikvillegas/itunes-connect-slack/master/example.png)
+![](example.png)
 
 # Set up
 
@@ -12,9 +12,9 @@ These scripts fetch app info directly from iTunes Connect and posts changes in S
 These scripts read specific values from the bash environment. Be sure to set these to the appropriate values:
 ```bash
 export BOT_API_TOKEN="xoxb-asdfasdfasfasdfasdfsd" # The API Token for your bot, provided by Slack
-export itc_username="email@email.com" # The email you use to log into iTunes Connect
-export itc_team_id=77416800,77416801 # specify itunes team ids if user has an access to multiple ones (comma separated)
-export bundle_id="com.best.app" # The bundle ID of the app you want these scripts to check
+export ITC_USERNAME="email@email.com" # The email you use to log into iTunes Connect
+export ITC_TEAM_IDS=77416800,77416801 # specify iTunes team ids if user has an access to multiple ones (comma separated)
+export BUNDLE_IDENTIFIER="com.best.app" # The bundle ID of the app you want these scripts to check
 ```
 
 ### Install node modules
