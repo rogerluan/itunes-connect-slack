@@ -4,7 +4,7 @@
   "description": "itunes-connect-slack\r --------------------",
   "main": "poll-itc.js",
   "scripts": {
-    "start": "node poll-itc.js"
+    "start": "node poll-itc.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
