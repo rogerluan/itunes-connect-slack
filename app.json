@@ -1,0 +1,48 @@
+{
+  "name": "App Store Connect Slack Notifier",
+  "description": "This app polls App Store Connect and posts a message to Slack when there's a change in your app's status.",
+  "keywords": [
+    "slack",
+    "App Store",
+    "notifications",
+    "App Store Connect",
+    "iTunes Connect"
+  ],
+  "website": "https://github.com/rogerluan/itunes-connect-slack",
+  "repository": "https://github.com/rogerluan/itunes-connect-slack",
+  "logo": "https://img.icons8.com/bell.png",
+  "success_url": "https://github.com/rogerluan/itunes-connect-slack",
+  "image": "heroku/nodejs",
+  "env": {
+    "ITC_USERNAME": {
+      "description": "Your App Store Connect username",
+      "required": true
+    },
+    "ITC_PASSWORD": {
+      "description": "Your App Store Connect password",
+      "required": true
+    },
+    "BUNDLE_IDENTIFIER": {
+      "description": "The bundle identifier of the app you want these scripts to monitor the status.",
+      "required": true
+    },
+    "BOT_API_TOKEN": {
+      "description": "The API token for your bot, provided by Slack.",
+      "required": true
+    },
+    "ITC_TEAM_IDS": {
+      "description": "Optional: If you're in multiple teams, enter the IDs of your App Store Connect team here (comma separated).",
+      "required": false
+    },
+    "SLACK_CHANNEL_NAME": {
+      "description": "Optional: Specify the channel you'd like the bot to post on. Don't forget to add the bot to this channel in Slack so it can post there.",
+      "required": true,
+      "value": "#ios-app-updates"
+    },
+    "POLL_TIME_IN_SECONDS": {
+      "description": "How often the script should check for updates (in seconds).",
+      "required": true,
+      "value": 120
+    }
+  }
+}
