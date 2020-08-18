@@ -1,1 +1,1 @@
-web: node poll-itc.js
+clock: node poll-itc.js
