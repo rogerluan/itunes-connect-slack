@@ -5,7 +5,9 @@
   "main": "poll-itc.js",
   "scripts": {
     "start": "node poll-itc.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint-fix": "./node_modules/.bin/eslint . --fix",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
