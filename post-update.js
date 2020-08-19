@@ -13,7 +13,23 @@ function postToSlack(appInfo, submissionStartDate) {
     if (!channel) {
         channel = "#ios-app-updates"
     }
+    client.chat.postMessage(channel, message, params, function(err,) {
+        if (err) {
+            console.log("Error:", err)
+        }
+    })
+}
 
+function postMessageToSlack(message) {
+    const WebClient = require("@slack/client").WebClient
+    const client = new WebClient(process.env.BOT_API_TOKEN)
+    const params = {
+        "as_user" : "true"
+    }
+    const channel = process.env.BOT_STATUS_SLACK_CHANNEL_NAME
+    if (!channel) {
+        return
+    }
     client.chat.postMessage(channel, message, params, function(err,) {
         if (err) {
             console.log("Error:", err)
@@ -85,5 +101,6 @@ function colorForStatus(status) {
 }
 
 module.exports = {
-    slack: postToSlack
+    slack: postToSlack,
+    slackMessage: postMessageToSlack
 }
