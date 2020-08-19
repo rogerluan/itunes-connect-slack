@@ -1,17 +1,15 @@
-var moment = require("moment")
+const moment = require("moment")
 
 function postToSlack(appInfo, submissionStartDate) {
-    var WebClient = require("@slack/client").WebClient
-    var client = new WebClient(process.env.BOT_API_TOKEN)
-
-    var message = `The status of your app *${appInfo.name}* has been changed to *${appInfo.status}*`
-    var attachment = slackAttachment(appInfo, submissionStartDate)
-    var params = {
+    const WebClient = require("@slack/client").WebClient
+    const client = new WebClient(process.env.BOT_API_TOKEN)
+    const message = `The status of your app *${appInfo.name}* has been changed to *${appInfo.status}*`
+    const attachment = slackAttachment(appInfo, submissionStartDate)
+    const params = {
         "attachments" : [attachment],
         "as_user" : "true"
     }
-
-    var channel = process.env.SLACK_CHANNEL_NAME
+    const channel = process.env.SLACK_CHANNEL_NAME
     if (!channel) {
         channel = "#ios-app-updates"
     }
@@ -24,7 +22,7 @@ function postToSlack(appInfo, submissionStartDate) {
 }
 
 function slackAttachment(appInfo, submissionStartDate) {
-    var attachment = {
+    const attachment = {
         "fallback": `The status of your app ${appInfo.name} has been changed to ${appInfo.status}`,
         "color": colorForStatus(appInfo.status),
         "title": "iTunes Connect",
@@ -50,24 +48,23 @@ function slackAttachment(appInfo, submissionStartDate) {
 
     // set elapsed time since "Waiting For Review" start
     if (submissionStartDate && appInfo.status != "Prepare for Submission" && appInfo.status != "Waiting For Review") {
-        var elapsedHours = moment().diff(moment(submissionStartDate), "hours")
+        const elapsedHours = moment().diff(moment(submissionStartDate), "hours")
         attachment["fields"].push({
             "title": "Elapsed Time",
             "value": `${elapsedHours} hours`,
             "short": true
         })
     }
-
     return attachment
 }
 
 function colorForStatus(status) {
-    var infoColor = "#8e8e8e"
-    var warningColor = "#f4f124"
-    var successColor1 = "#1eb6fc"
-    var successColor2 = "#14ba40"
-    var failureColor = "#e0143d"
-    var colorMapping = {
+    const infoColor = "#8e8e8e"
+    const warningColor = "#f4f124"
+    const successColor1 = "#1eb6fc"
+    const successColor2 = "#14ba40"
+    const failureColor = "#e0143d"
+    const colorMapping = {
         "Prepare for Submission" : infoColor,
         "Waiting For Review" : infoColor,
         "In Review" : successColor1,
@@ -84,7 +81,6 @@ function colorForStatus(status) {
         "Developer Removed From Sale" : failureColor,
         "Invalid Binary" : failureColor
     }
-
     return colorMapping[status]
 }
 

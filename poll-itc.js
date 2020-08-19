@@ -1,20 +1,18 @@
-var poster = require("./post-update.js")
-var dirty = require("dirty")
-var db = dirty("kvstore.db")
-var debug = false
-var pollIntervalSeconds = process.env.POLL_TIME_IN_SECONDS
+const poster = require("./post-update.js")
+const dirty = require("dirty")
+const db = dirty("kvstore.db")
+const debug = false
+const pollIntervalSeconds = process.env.POLL_TIME_IN_SECONDS
 
 function checkAppStatus() {
     console.log("Fetching latest app status...")
-
     // Invoke ruby script to grab latest app status
-    var exec = require("child_process").exec
+    const exec = require("child_process").exec
     exec("ruby get-app-status.rb", function(err, stdout, stderr) {
         if (stdout) {
             // Compare new app info with last one (from database)
             console.log(stdout)
-            var versions = JSON.parse(stdout)
-
+            const versions = JSON.parse(stdout)
             for (let version of versions) {
                 _checkAppStatus(version)
             }
@@ -27,12 +25,10 @@ function checkAppStatus() {
 
 function _checkAppStatus(version) {
     // Use the live version if edit version is unavailable
-    var currentAppInfo = version["editVersion"] ? version["editVersion"] : version["liveVersion"]
-
-    var appInfoKey = "appInfo-" + currentAppInfo.appId
-    var submissionStartkey = "submissionStart" + currentAppInfo.appId
-
-    var lastAppInfo = db.get(appInfoKey)
+    const currentAppInfo = version["editVersion"] ? version["editVersion"] : version["liveVersion"]
+    const appInfoKey = "appInfo-" + currentAppInfo.appId
+    const submissionStartkey = "submissionStart" + currentAppInfo.appId
+    const lastAppInfo = db.get(appInfoKey)
     if (!lastAppInfo || lastAppInfo.status != currentAppInfo.status || debug) {
         poster.slack(currentAppInfo, db.get(submissionStartkey))
 
